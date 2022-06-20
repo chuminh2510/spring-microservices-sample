@@ -21,6 +21,8 @@ public class Book {
 
     private Integer quantity;
 
+    private Integer price;
+
     public BookDto toDto() {
         BookDto dto = new BookDto();
         dto.setId(this.id);

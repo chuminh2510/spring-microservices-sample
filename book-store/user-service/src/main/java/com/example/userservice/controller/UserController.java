@@ -3,8 +3,10 @@ package com.example.userservice.controller;
 import com.example.bookstore.dto.BookDto;
 import com.example.bookstore.dto.UserDto;
 import com.example.userservice.entity.User;
+import com.example.userservice.feignclient.BookFeignClient;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private UserService userService;
+
+    private BookFeignClient bookFeignClient;
 
 
     @PostMapping(value = "")
@@ -44,9 +48,25 @@ public class UserController {
         return userService.delete(user);
     }
 
+    @GetMapping("/books")
+    public List<BookDto> findAllBooks() {
+        return bookFeignClient.findAll();
+    }
+
+    @GetMapping("/books/{id}")
+    public BookDto detailBooks(@PathVariable Integer id) {
+        return bookFeignClient.detailBook(id);
+    }
+
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    @Qualifier("book-serviceFeignClient")
+    public void setBookFeignClient(BookFeignClient bookFeignClient) {
+        this.bookFeignClient = bookFeignClient;
     }
 }
