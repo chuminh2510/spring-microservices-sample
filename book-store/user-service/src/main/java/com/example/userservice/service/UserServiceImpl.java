@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.bookstore.dto.UserRequestDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepo;
 
     @Override
-    public User save(User data) {
-        return userRepo.save(data);
+    public User save(UserRequestDto data) {
+        User user = User.from(data);
+        return userRepo.save(user);
     }
 
     @Override
@@ -22,8 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User data) {
-        return userRepo.save(data);
+    public User update(UserRequestDto data) {
+        User user = User.from(data);
+        return userRepo.save(user);
     }
 
     @Override

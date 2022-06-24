@@ -12,8 +12,13 @@ public class FallbackController {
         return "Books: Fallback";
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public String userFallback() {
         return "Users: Fallback";
+    }
+
+    @GetMapping("/orders")
+    public String orderFallback() {
+        return "Orders: Fallback";
     }
 }

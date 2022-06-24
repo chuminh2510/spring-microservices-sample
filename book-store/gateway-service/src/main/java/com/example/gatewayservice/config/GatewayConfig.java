@@ -12,6 +12,7 @@ public class GatewayConfig {
         return builder.routes()
                 .route("bookModule", r -> r.path("/books/**").filters(f -> f.circuitBreaker(config -> config.setFallbackUri("forward:/fallback/books"))).uri("lb://book-service"))
                 .route("userModule", r -> r.path("/users/**").filters(f -> f.circuitBreaker(config -> config.setFallbackUri("forward:/fallback/users"))).uri("lb://user-service"))
+                .route("orderModule", r -> r.path("/orders/**").filters(f -> f.circuitBreaker(config -> config.setFallbackUri("forward:/fallback/orders"))).uri("lb://order-service"))
                 .build();
     }
 }

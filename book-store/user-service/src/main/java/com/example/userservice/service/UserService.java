@@ -1,7 +1,8 @@
 package com.example.userservice.service;
 
+import com.example.bookstore.dto.UserRequestDto;
 import com.example.bookstore.service.BaseService;
 import com.example.userservice.entity.User;
 
-public interface UserService extends BaseService<User, Integer> {
+public interface UserService extends BaseService<User, Integer, UserRequestDto> {
 }

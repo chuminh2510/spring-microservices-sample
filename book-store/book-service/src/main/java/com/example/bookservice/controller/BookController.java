@@ -1,8 +1,9 @@
 package com.example.bookservice.controller;
 
-import com.example.bookstore.dto.BookDto;
 import com.example.bookservice.entity.Book;
 import com.example.bookservice.service.BookService;
+import com.example.bookstore.dto.BookDto;
+import com.example.bookstore.dto.BookRequestDto;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,13 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping(value = "")
-    public BookDto insert(Book data) {
+    public BookDto insert(@RequestBody BookRequestDto data) {
+        log.info("insert");
         return bookService.save(data).toDto();
     }
 
     @PutMapping(value = "")
-    public BookDto update(Book data) {
+    public BookDto update(@RequestBody BookRequestDto data) {
         return bookService.update(data).toDto();
     }
 

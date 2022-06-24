@@ -2,11 +2,11 @@ package com.example.bookservice.service;
 
 import com.example.bookservice.entity.Book;
 import com.example.bookservice.repository.BookRepository;
+import com.example.bookstore.dto.BookRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -14,8 +14,9 @@ public class BookServiceImpl implements BookService{
     private BookRepository bookRepo;
 
     @Override
-    public Book save(Book data) {
-        return bookRepo.save(data);
+    public Book save(BookRequestDto data) {
+        Book book = Book.from(data);
+        return bookRepo.save(book);
     }
 
     @Override
@@ -24,8 +25,9 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Book update(Book data) {
-        return bookRepo.save(data);
+    public Book update(BookRequestDto data) {
+        Book book = Book.from(data);
+        return bookRepo.save(book);
     }
 
     @Override

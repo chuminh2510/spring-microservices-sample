@@ -9,6 +9,7 @@ import org.springframework.hateoas.RepresentationModel;
 public class BookDto extends RepresentationModel<BookDto> {
     private Integer id;
     private String name;
+    private Integer quantity;
     private String category;
 
 }

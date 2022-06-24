@@ -2,9 +2,11 @@ package com.example.userservice.controller;
 
 import com.example.bookstore.dto.BookDto;
 import com.example.bookstore.dto.UserDto;
+import com.example.bookstore.dto.UserRequestDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.feignclient.BookFeignClient;
 import com.example.userservice.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -22,12 +25,13 @@ public class UserController {
 
 
     @PostMapping(value = "")
-    public UserDto insert(User data) {
+    public UserDto insert(@RequestBody UserRequestDto data) {
+        log.info("insert");
         return userService.save(data).toDto();
     }
 
     @PutMapping(value = "")
-    public UserDto update(User data) {
+    public UserDto update(@RequestBody UserRequestDto data) {
         return userService.update(data).toDto();
     }
 
