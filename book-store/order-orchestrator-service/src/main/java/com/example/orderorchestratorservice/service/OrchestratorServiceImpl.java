@@ -5,10 +5,7 @@ import com.example.bookstore.dto.OrderResponseDto;
 import com.example.bookstore.status.OrderStatus;
 import com.example.orderorchestratorservice.step.BookStep;
 import com.example.orderorchestratorservice.step.UserStep;
-import com.example.orderorchestratorservice.workflow.OrderWorkflow;
-import com.example.orderorchestratorservice.workflow.Workflow;
-import com.example.orderorchestratorservice.workflow.WorkflowStep;
-import com.example.orderorchestratorservice.workflow.WorkflowStepStatus;
+import com.example.orderorchestratorservice.workflow.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,10 +33,10 @@ public class OrchestratorServiceImpl implements OrchestratorService {
                     log.info("Object Dto: " + dto);
                     if (dto != null) {
                         log.info("Waiting next step");
-//                        objectSynchronousSink.next(true);
+                        objectSynchronousSink.next(true);
                     } else {
                         log.error("Create order failed");
-//                        objectSynchronousSink.error(new WorkflowException("Create order failed"));
+                        objectSynchronousSink.error(new WorkflowException("Create order failed"));
                     }
 
                 })))
