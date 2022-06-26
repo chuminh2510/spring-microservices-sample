@@ -2,10 +2,10 @@ package com.example.orderorchestratorservice.workflow;
 
 import reactor.core.publisher.Mono;
 
-public interface WorkflowStep {
+public interface WorkflowStep<T, V> {
     WorkflowStepStatus getStatus();
 
-    Mono<Boolean> process();
+    Mono<T> process();
 
-    Mono<Boolean> revert();
+    Mono<V> revert();
 }

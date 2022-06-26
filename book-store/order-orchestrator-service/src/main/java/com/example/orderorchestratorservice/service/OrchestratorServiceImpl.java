@@ -5,7 +5,10 @@ import com.example.bookstore.dto.OrderResponseDto;
 import com.example.bookstore.status.OrderStatus;
 import com.example.orderorchestratorservice.step.BookStep;
 import com.example.orderorchestratorservice.step.UserStep;
-import com.example.orderorchestratorservice.workflow.*;
+import com.example.orderorchestratorservice.workflow.OrderWorkflow;
+import com.example.orderorchestratorservice.workflow.Workflow;
+import com.example.orderorchestratorservice.workflow.WorkflowStep;
+import com.example.orderorchestratorservice.workflow.WorkflowStepStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,12 +32,16 @@ public class OrchestratorServiceImpl implements OrchestratorService {
 
         return Flux.fromStream(() -> orderWorkFlow.getSteps().stream())
                 .flatMap(WorkflowStep::process)
-                .handle((((aBoolean, objectSynchronousSink) -> {
-                    if (aBoolean) {
-                        objectSynchronousSink.next(true);
+                .handle((((dto, objectSynchronousSink) -> {
+                    log.info("Object Dto: " + dto);
+                    if (dto != null) {
+                        log.info("Waiting next step");
+//                        objectSynchronousSink.next(true);
                     } else {
-                        objectSynchronousSink.error(new WorkflowException("Create order failed"));
+                        log.error("Create order failed");
+//                        objectSynchronousSink.error(new WorkflowException("Create order failed"));
                     }
+
                 })))
                 .then(Mono.fromCallable(() -> requestDto.toOrderResponseDto(OrderStatus.ORDER_COMPLETED)))
                 .onErrorResume(ex -> this.revertOrder(orderWorkFlow, requestDto));

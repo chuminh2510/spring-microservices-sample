@@ -23,6 +23,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = Order.from(data);
         Order out = orderRepo.save(order);
         this.sink.next(data);
+        log.info("Finish save order");
         return out;
     }
 
