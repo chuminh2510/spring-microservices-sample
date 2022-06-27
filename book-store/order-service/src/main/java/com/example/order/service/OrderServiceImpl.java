@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateCompletedTime(OrderResponseDto reponseDto) {
+    public void updateCompletedTime(OrderResponseDto responseDto) {
         log.info("Completed Order");
     }
 
