@@ -3,6 +3,7 @@ package com.example.orderorchestratorservice.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
@@ -13,16 +14,16 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class WebClientConfig {
 
-//    @Bean
-//    @LoadBalanced
-//    public WebClient.Builder getWebClientBuilder() {
-//        return WebClient.builder();
-//    }
+    @Bean
+    @LoadBalanced
+    public WebClient.Builder getWebClientBuilder() {
+        return WebClient.builder();
+    }
 
     @Bean
     @Qualifier("user")
     public WebClient userClient(@Value("${service.endpoints.user}") String endpoint) {
-        return WebClient.builder()
+        return getWebClientBuilder()
                 .baseUrl(endpoint)
                 .filters(exchangeFilterFunctions -> {
                     exchangeFilterFunctions.add(logRequest());
@@ -34,7 +35,7 @@ public class WebClientConfig {
     @Bean
     @Qualifier("book")
     public WebClient bookClient(@Value("${service.endpoints.book}") String endpoint) {
-        return WebClient.builder()
+        return getWebClientBuilder()
                 .baseUrl(endpoint)
                 .filters(exchangeFilterFunctions -> {
                     exchangeFilterFunctions.add(logRequest());

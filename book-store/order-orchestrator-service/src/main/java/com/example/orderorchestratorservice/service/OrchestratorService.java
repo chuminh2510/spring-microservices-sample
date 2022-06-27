@@ -10,6 +10,6 @@ public interface OrchestratorService {
 
     Mono<OrderResponseDto> createOrder(OrderRequestDto requestDto);
 
-    Mono<OrderResponseDto> revertOrder(Workflow workflow, OrderRequestDto requestDto);
+    Mono<OrderResponseDto> revertOrder(Workflow workflow, OrderRequestDto requestDto, Throwable ex);
 
 }

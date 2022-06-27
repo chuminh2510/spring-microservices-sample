@@ -41,12 +41,13 @@ public class OrchestratorServiceImpl implements OrchestratorService {
 
                 })))
                 .then(Mono.fromCallable(() -> requestDto.toOrderResponseDto(OrderStatus.ORDER_COMPLETED)))
-                .onErrorResume(ex -> this.revertOrder(orderWorkFlow, requestDto));
+                .onErrorResume(ex -> this.revertOrder(orderWorkFlow, requestDto, ex));
     }
 
     @Override
-    public Mono<OrderResponseDto> revertOrder(Workflow workflow, OrderRequestDto requestDto) {
+    public Mono<OrderResponseDto> revertOrder(Workflow workflow, OrderRequestDto requestDto, Throwable ex) {
         log.info("revertOrder");
+        log.error("Error is ", ex);
         return Flux.fromStream(() -> workflow.getSteps().stream())
                 .filter(wf -> wf.getStatus().equals(WorkflowStepStatus.END))
                 .flatMap(WorkflowStep::revert)
