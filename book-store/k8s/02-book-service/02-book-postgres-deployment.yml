@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-postgres
+  namespace: book-store
+  labels:
+    app: book-postgres
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: book-postgres
+      labels:
+        app: book-postgres
+    spec:
+      containers:
+        - name: book-postgres
+          image: postgres:14.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: BOOK_POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: BOOK_POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: BOOK_POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              subPath: book
+              name: postgres-data
+      restartPolicy: Always
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: book-postgresql-data-pvc
+  selector:
+    matchLabels:
+      app: book-postgres

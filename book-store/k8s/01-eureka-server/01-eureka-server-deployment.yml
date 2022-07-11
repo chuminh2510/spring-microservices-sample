@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-server-deployment
+  namespace: book-store
+  labels:
+    app: eureka-server-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: eureka-server-deployment
+      labels:
+        app: eureka-server-deployment
+        app-type: service-discovery
+    spec:
+      containers:
+        - name: eureka-server-deployment
+          image: eureka-server:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8761
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: eureka-server-deployment
