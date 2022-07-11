@@ -1,11 +1,11 @@
 package com.example.orderorchestratorservice.service;
 
-import com.example.bookstore.dto.OrderRequestDto;
-import com.example.bookstore.dto.OrderResponseDto;
-import com.example.bookstore.status.OrderStatus;
+import com.example.dto.OrderRequestDto;
+import com.example.dto.OrderResponseDto;
 import com.example.orderorchestratorservice.step.BookStep;
 import com.example.orderorchestratorservice.step.UserStep;
 import com.example.orderorchestratorservice.workflow.*;
+import com.example.status.OrderStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,7 +1,7 @@
 package com.example.order.config;
 
-import com.example.bookstore.dto.OrderRequestDto;
-import com.example.bookstore.dto.OrderResponseDto;
+import com.example.dto.OrderRequestDto;
+import com.example.dto.OrderResponseDto;
 import com.example.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
 package com.example.orderorchestratorservice.step;
 
-import com.example.bookstore.dto.BookDto;
-import com.example.bookstore.dto.BookRequestDto;
+import com.example.dto.BookDto;
+import com.example.dto.BookRequestDto;
 import com.example.orderorchestratorservice.workflow.WorkflowStep;
 import com.example.orderorchestratorservice.workflow.WorkflowStepStatus;
 import org.springframework.web.reactive.function.BodyInserters;

@@ -2,8 +2,8 @@ package com.example.bookservice.controller;
 
 import com.example.bookservice.entity.Book;
 import com.example.bookservice.service.BookService;
-import com.example.bookstore.dto.BookDto;
-import com.example.bookstore.dto.BookRequestDto;
+import com.example.dto.BookDto;
+import com.example.dto.BookRequestDto;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

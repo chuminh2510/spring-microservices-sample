@@ -1,10 +1,7 @@
 package com.example.userservice.feignclient;
 
-import com.example.bookstore.dto.BookDto;
+import com.example.dto.BookDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

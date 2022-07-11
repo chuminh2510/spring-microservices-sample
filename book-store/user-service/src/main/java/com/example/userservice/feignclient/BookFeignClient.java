@@ -1,7 +1,6 @@
 package com.example.userservice.feignclient;
 
-import com.example.bookstore.dto.BookDto;
-import io.github.resilience4j.retry.annotation.Retry;
+import com.example.dto.BookDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

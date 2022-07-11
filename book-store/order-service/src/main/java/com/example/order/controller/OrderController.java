@@ -1,9 +1,9 @@
 package com.example.order.controller;
 
-import com.example.bookstore.dto.BookRequestDto;
-import com.example.bookstore.dto.OrderDto;
-import com.example.bookstore.dto.OrderRequestDto;
-import com.example.bookstore.dto.UserRequestDto;
+import com.example.dto.BookRequestDto;
+import com.example.dto.OrderDto;
+import com.example.dto.OrderRequestDto;
+import com.example.dto.UserRequestDto;
 import com.example.order.entity.Order;
 import com.example.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;

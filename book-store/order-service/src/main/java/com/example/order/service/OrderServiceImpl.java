@@ -1,7 +1,7 @@
 package com.example.order.service;
 
-import com.example.bookstore.dto.OrderRequestDto;
-import com.example.bookstore.dto.OrderResponseDto;
+import com.example.dto.OrderRequestDto;
+import com.example.dto.OrderResponseDto;
 import com.example.order.entity.Order;
 import com.example.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;

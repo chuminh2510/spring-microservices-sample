@@ -1,4 +1,4 @@
-package com.example.bookstore.status;
+package com.example.status;
 
 import lombok.Getter;
 

@@ -7,26 +7,20 @@
         <artifactId>book-store</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <!--    <parent>-->
-    <!--        <groupId>org.springframework.boot</groupId>-->
-    <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--        <version>2.7.0</version>-->
-    <!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-    <!--    </parent>-->
-    <!--    <groupId>com.example</groupId>-->
     <artifactId>auth-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>auth-service</name>
     <description>auth-service</description>
     <properties>
         <java.version>11</java.version>
+        <core.version>0.0.1-SNAPSHOT</core.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>book-store</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>core</artifactId>
+            <version>${core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

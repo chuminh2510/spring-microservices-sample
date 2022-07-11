@@ -1,7 +1,7 @@
 package com.example.bookservice.entity;
 
-import com.example.bookstore.dto.BookDto;
-import com.example.bookstore.dto.BookRequestDto;
+import com.example.dto.BookDto;
+import com.example.dto.BookRequestDto;
 import lombok.Getter;
 import lombok.Setter;
 

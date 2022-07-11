@@ -1,6 +1,7 @@
 package com.example.orderorchestratorservice.workflow;
 
-import com.example.bookstore.dto.BaseDto;
+
+import com.example.dto.BaseDto;
 
 import java.util.List;
 

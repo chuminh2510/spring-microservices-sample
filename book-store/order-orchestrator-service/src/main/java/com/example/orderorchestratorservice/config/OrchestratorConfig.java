@@ -1,7 +1,7 @@
 package com.example.orderorchestratorservice.config;
 
-import com.example.bookstore.dto.OrderRequestDto;
-import com.example.bookstore.dto.OrderResponseDto;
+import com.example.dto.OrderRequestDto;
+import com.example.dto.OrderResponseDto;
 import com.example.orderorchestratorservice.service.OrchestratorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

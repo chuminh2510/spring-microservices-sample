@@ -1,7 +1,7 @@
 package com.example.order.entity;
 
-import com.example.bookstore.dto.OrderDto;
-import com.example.bookstore.dto.OrderRequestDto;
+import com.example.dto.OrderDto;
+import com.example.dto.OrderRequestDto;
 import lombok.Getter;
 import lombok.Setter;
 

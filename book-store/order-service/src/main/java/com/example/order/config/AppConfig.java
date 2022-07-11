@@ -1,6 +1,6 @@
 package com.example.order.config;
 
-import com.example.bookstore.dto.OrderRequestDto;
+import com.example.dto.OrderRequestDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.DirectProcessor;

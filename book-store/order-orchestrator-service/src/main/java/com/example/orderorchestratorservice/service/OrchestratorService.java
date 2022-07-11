@@ -1,8 +1,8 @@
 package com.example.orderorchestratorservice.service;
 
 
-import com.example.bookstore.dto.OrderRequestDto;
-import com.example.bookstore.dto.OrderResponseDto;
+import com.example.dto.OrderRequestDto;
+import com.example.dto.OrderResponseDto;
 import com.example.orderorchestratorservice.workflow.Workflow;
 import reactor.core.publisher.Mono;
 

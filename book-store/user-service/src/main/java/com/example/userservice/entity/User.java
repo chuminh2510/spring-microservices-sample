@@ -1,7 +1,7 @@
 package com.example.userservice.entity;
 
-import com.example.bookstore.dto.UserDto;
-import com.example.bookstore.dto.UserRequestDto;
+import com.example.dto.UserDto;
+import com.example.dto.UserRequestDto;
 import lombok.Getter;
 import lombok.Setter;
 

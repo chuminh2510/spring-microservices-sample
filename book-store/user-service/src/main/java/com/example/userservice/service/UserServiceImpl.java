@@ -1,6 +1,6 @@
 package com.example.userservice.service;
 
-import com.example.bookstore.dto.UserRequestDto;
+import com.example.dto.UserRequestDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

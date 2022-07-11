@@ -8,5 +8,5 @@ public enum WorkflowStepStatus {
     IN_PROGRESS,
     PENDING,
     CANCEL,
-    END;
+    END
 }

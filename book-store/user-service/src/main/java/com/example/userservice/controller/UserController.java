@@ -1,8 +1,8 @@
 package com.example.userservice.controller;
 
-import com.example.bookstore.dto.BookDto;
-import com.example.bookstore.dto.UserDto;
-import com.example.bookstore.dto.UserRequestDto;
+import com.example.dto.BookDto;
+import com.example.dto.UserDto;
+import com.example.dto.UserRequestDto;
 import com.example.userservice.entity.User;
 import com.example.userservice.feignclient.BookFeignClient;
 import com.example.userservice.service.UserService;

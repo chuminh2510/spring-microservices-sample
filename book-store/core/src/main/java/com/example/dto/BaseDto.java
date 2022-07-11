@@ -1,4 +1,4 @@
-package com.example.bookstore.dto;
+package com.example.dto;
 
 import org.springframework.hateoas.RepresentationModel;
 

@@ -1,6 +1,6 @@
-package com.example.bookstore.dto;
+package com.example.dto;
 
-import com.example.bookstore.status.OrderStatus;
+import com.example.status.OrderStatus;
 import lombok.Data;
 
 @Data

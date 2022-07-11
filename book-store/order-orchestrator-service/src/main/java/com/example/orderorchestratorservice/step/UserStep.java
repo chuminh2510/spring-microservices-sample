@@ -1,7 +1,7 @@
 package com.example.orderorchestratorservice.step;
 
-import com.example.bookstore.dto.UserDto;
-import com.example.bookstore.dto.UserRequestDto;
+import com.example.dto.UserDto;
+import com.example.dto.UserRequestDto;
 import com.example.orderorchestratorservice.workflow.WorkflowStep;
 import com.example.orderorchestratorservice.workflow.WorkflowStepStatus;
 import lombok.extern.slf4j.Slf4j;
