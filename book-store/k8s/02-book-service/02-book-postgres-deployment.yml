@@ -1,24 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: book-postgres
+  name: book-postgres-deployment
   namespace: book-store
   labels:
-    app: book-postgres
+    app: book-postgres-deployment
+    app-type: database
 spec:
   replicas: 2
   template:
     metadata:
-      name: book-postgres
+      name: book-postgres-deployment
       labels:
-        app: book-postgres
+        app: book-postgres-deployment
     spec:
       containers:
-        - name: book-postgres
+        - name: book-postgres-deployment
           image: postgres:14.4
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
+          #          command: [ "postgres" ]
+          #          args: [ "-e POSTGRES_PASSWORD=postgres", "-d book" ]
           env:
             - name: POSTGRES_DB
               valueFrom:
@@ -46,4 +49,4 @@ spec:
             claimName: book-postgresql-data-pvc
   selector:
     matchLabels:
-      app: book-postgres
+      app: book-postgres-deployment

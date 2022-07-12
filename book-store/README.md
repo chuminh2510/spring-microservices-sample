@@ -49,5 +49,4 @@ kubectl apply -f 01-persistent-volumn-claim.yml
 
 # Check PVC
 kubectl get pvc -n book-store
-
 ```

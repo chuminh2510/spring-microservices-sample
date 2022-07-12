@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-service-deployment
+  namespace: book-store
+  labels:
+    app: book-service-deployment
+    app-type: service-endpoint
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: book-service-deployment
+      labels:
+        app: book-service-deployment
+        app-type: service-endpoint
+    spec:
+      containers:
+        - name: book-service-deployment
+          image: book-service:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: BOOK_POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: BOOK_POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: BOOK_POSTGRES_DB
+                  name: postgres-secret
+            - name: POSTGRES_HOST
+              value: ${BOOK_POSTGRES_SERVICE_LB_SERVICE_HOST}
+
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: book-service-deployment

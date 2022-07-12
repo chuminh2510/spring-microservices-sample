@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: eureka-server-service-lb
+  name: book-postgres-service-lb
   namespace: book-store
 spec:
   selector:
-    app: eureka-server-deployment
+    app: book-postgres-deployment
   ports:
-    - port: 8761
-      targetPort: 8761
+    - port: 5432
+      targetPort: 5432
   type: LoadBalancer
