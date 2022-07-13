@@ -25,10 +25,12 @@ kubectl apply -f 01-persistent-volumn.yml
 kubectl apply -f 02-postgres-secret.yml
 # Check created namespace
 kubectl get namespace
+# Change to use name space "book-store" as default
+kubectl config set-context --current --namespace=book-store
 # Check Persistent volume
-kubectl get pv -n book-store
+kubectl get pv
 # Check secrets
-kubectl describe secrets/postgres-secret -n book-store
+kubectl describe secrets/postgres-secret
 ```
 
 * Deploy Eureka server
@@ -38,7 +40,7 @@ kubectl describe secrets/postgres-secret -n book-store
 kubectl apply -f 01-eureka-server-deployment.yml
 kubectl apply -f 02-eureka-server-service.yml
 # To check service:
-kubectl get service -n book-store
+kubectl get service
 ```
 
 * Deploy Book service
@@ -48,5 +50,5 @@ kubectl get service -n book-store
 kubectl apply -f 01-persistent-volumn-claim.yml
 
 # Check PVC
-kubectl get pvc -n book-store
+kubectl get pvc
 ```

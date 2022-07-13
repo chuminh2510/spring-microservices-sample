@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: book-postgres-service-lb
+  name: book-postgres-service-np
   namespace: book-store
 spec:
   selector:
@@ -9,4 +9,5 @@ spec:
   ports:
     - port: 5432
       targetPort: 5432
-  type: LoadBalancer
+      nodePort: 30013
+  type: NodePort

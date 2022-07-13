@@ -38,7 +38,9 @@ spec:
                   key: BOOK_POSTGRES_DB
                   name: postgres-secret
             - name: POSTGRES_HOST
-              value: ${BOOK_POSTGRES_SERVICE_LB_SERVICE_HOST}
+              value: ${BOOK_POSTGRES_SERVICE_NP_SERVICE_HOST}
+            - name: EUREKA_HOST
+              value: ${EUREKA_SERVER_SERVICE_LB_SERVICE_HOST}
 
       restartPolicy: Always
   selector:
