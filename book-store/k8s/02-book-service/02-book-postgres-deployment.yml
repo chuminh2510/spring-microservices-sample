@@ -6,6 +6,7 @@ metadata:
   labels:
     app: book-postgres-deployment
     app-type: database
+    project: book-store
 spec:
   replicas: 2
   template:

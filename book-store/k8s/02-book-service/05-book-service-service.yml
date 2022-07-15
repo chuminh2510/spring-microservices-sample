@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: book-service-service-np
   namespace: book-store
+  labels:
+    project: book-store
 spec:
   selector:
     app: book-service-deployment

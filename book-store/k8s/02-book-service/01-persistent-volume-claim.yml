@@ -6,6 +6,7 @@ metadata:
   labels:
     app: book-postgresql-data-pv
     app-type: storage
+    project: book-store
 spec:
   storageClassName: manual
   capacity:
@@ -23,6 +24,7 @@ metadata:
   labels:
     app: book-postgresql-data-pvc
     app-type: storage
+    project: book-store
 spec:
   storageClassName: manual
   accessModes:

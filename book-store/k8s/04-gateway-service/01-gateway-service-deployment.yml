@@ -5,6 +5,7 @@ metadata:
   namespace: book-store
   labels:
     app: gateway-service-deployment
+    project: book-store
 spec:
   replicas: 1
   template:
@@ -33,6 +34,8 @@ kind: Service
 metadata:
   name: gateway-service-service-lb
   namespace: book-store
+  labels:
+    project: book-store
 spec:
   selector:
     app: gateway-service-deployment

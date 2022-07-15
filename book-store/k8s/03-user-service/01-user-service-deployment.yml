@@ -7,6 +7,7 @@ metadata:
   labels:
     app: user-postgresql-data-pv
     app-type: storage
+    project: book-store
 spec:
   storageClassName: manual
   capacity:
@@ -25,6 +26,7 @@ metadata:
   labels:
     app: user-postgresql-data-pvc
     app-type: storage
+    project: book-store
 spec:
   storageClassName: manual
   accessModes:
@@ -42,6 +44,7 @@ metadata:
   labels:
     app: user-postgres-deployment
     app-type: database
+    project: book-store
 spec:
   replicas: 2
   template:
@@ -90,6 +93,8 @@ kind: Service
 metadata:
   name: user-postgres-service-np
   namespace: book-store
+  labels:
+    project: book-store
 spec:
   selector:
     app: user-postgres-deployment
@@ -108,6 +113,7 @@ metadata:
   labels:
     app: user-service-deployment
     app-type: service-endpoint
+    project: book-store
 spec:
   replicas: 2
   template:
@@ -155,6 +161,8 @@ kind: Service
 metadata:
   name: user-service-service-np
   namespace: book-store
+  labels:
+    project: book-store
 spec:
   selector:
     app: user-service-deployment

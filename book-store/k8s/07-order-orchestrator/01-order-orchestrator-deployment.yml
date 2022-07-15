@@ -1,0 +1,56 @@
+# Order orchestrator deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-orchestrator-deployment
+  namespace: book-store
+  labels:
+    app: order-orchestrator-deployment
+    app-type: service-orchestrator
+    project: book-store
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: order-orchestrator-deployment
+      labels:
+        app: order-orchestrator-deployment
+        app-type: service-orchestrator
+    spec:
+      containers:
+        - name: order-orchestrator-deployment
+          image: order-orchestrator-service:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: 256Mi
+            limits:
+              memory: 1024Mi
+          ports:
+            - containerPort: 8080
+          env:
+            - name: EUREKA_HOST
+              value: ${EUREKA_SERVER_SERVICE_LB_SERVICE_HOST}
+            - name: KAFKA_HOST
+              value: "${KAFKA_SERVICE_NP_SERVICE_HOST}:9092"
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: order-orchestrator-deployment
+---
+# Order orchestrator service
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-orchestrator-service-np
+  namespace: book-store
+  labels:
+    project: book-store
+spec:
+  selector:
+    app: order-orchestrator-deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30005
+  type: NodePort

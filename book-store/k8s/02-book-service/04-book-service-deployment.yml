@@ -6,6 +6,7 @@ metadata:
   labels:
     app: book-service-deployment
     app-type: service-endpoint
+    project: book-store
 spec:
   replicas: 2
   template:
