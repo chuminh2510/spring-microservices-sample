@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: book-service-service
+  name: book-service-service-np
   namespace: book-store
 spec:
   selector:

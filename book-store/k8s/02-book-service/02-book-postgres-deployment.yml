@@ -25,7 +25,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
-                  key: BOOK_POSTGRES_DB
+                  key: POSTGRES_DB
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
@@ -38,11 +38,10 @@ spec:
                   key: BOOK_POSTGRES_PASSWORD
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              subPath: book
-              name: postgres-data
+              name: book-postgres-data
       restartPolicy: Always
       volumes:
-        - name: postgres-data
+        - name: book-postgres-data
           persistentVolumeClaim:
             claimName: book-postgresql-data-pvc
   selector:

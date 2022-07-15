@@ -1,0 +1,165 @@
+# Persistent volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: user-postgresql-data-pv
+  namespace: book-store
+  labels:
+    app: user-postgresql-data-pv
+    app-type: storage
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/Users/minhcv/data/user"
+---
+# Persistent volume claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: user-postgresql-data-pvc
+  namespace: book-store
+  labels:
+    app: user-postgresql-data-pvc
+    app-type: storage
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+---
+# Postgres deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-postgres-deployment
+  namespace: book-store
+  labels:
+    app: user-postgres-deployment
+    app-type: database
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: user-postgres-deployment
+      labels:
+        app: user-postgres-deployment
+    spec:
+      containers:
+        - name: user-postgres-deployment
+          image: postgres:14.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: USER_POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: USER_POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      restartPolicy: Always
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: user-postgresql-data-pvc
+  selector:
+    matchLabels:
+      app: user-postgres-deployment
+---
+# Postgres service
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-postgres-service-np
+  namespace: book-store
+spec:
+  selector:
+    app: user-postgres-deployment
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30012
+  type: NodePort
+---
+# User deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-deployment
+  namespace: book-store
+  labels:
+    app: user-service-deployment
+    app-type: service-endpoint
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: user-service-deployment
+      labels:
+        app: user-service-deployment
+        app-type: service-endpoint
+    spec:
+      containers:
+        - name: user-service-deployment
+          image: user-service:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: USER_POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: USER_POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_DB
+                  name: postgres-secret
+            - name: POSTGRES_HOST
+              value: ${USER_POSTGRES_SERVICE_NP_SERVICE_HOST}
+            - name: EUREKA_HOST
+              value: ${EUREKA_SERVER_SERVICE_LB_SERVICE_HOST}
+
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: user-service-deployment
+---
+# User service
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service-service-np
+  namespace: book-store
+spec:
+  selector:
+    app: user-service-deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30002
+  type: NodePort

@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper-deployment
+  namespace: book-store
+  labels:
+    app: zookeeper-deployment
+    app-type: kafka-channel
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: zookeeper-deployment
+      labels:
+        app: zookeeper-deployment
+    spec:
+      containers:
+        - name: zookeeper-deployment
+          image: confluentinc/cp-zookeeper:7.0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 2181
+          env:
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
+            - name: ZOOKEEPER_TICK_TIME
+              value: "2000"
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: zookeeper-deployment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-service-np
+spec:
+  selector:
+    app: zookeeper-deployment
+  ports:
+    - port: 2181
+      targetPort: 2181
+      nodePort: 30021
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-deployment
+  namespace: book-store
+  labels:
+    app: kafka-deployment
+    app-type: kafka-channel
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: kafka-deployment
+      labels:
+        app: kafka-deployment
+    spec:
+      containers:
+        - name: kafka-deployment
+          image: confluentinc/cp-kafka:7.0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9092
+          env:
+            - name: KAFKA_BROKER_ID
+              value: "1"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "$(ZOOKEEPER_SERVICE_NP_SERVICE_HOST):2181"
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://broker:29092"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: "1"
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: kafka-deployment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-service-np
+spec:
+  selector:
+    app: kafka-deployment
+  ports:
+    - port: 9092
+      targetPort: 9092
+      nodePort: 30022
+  type: NodePort

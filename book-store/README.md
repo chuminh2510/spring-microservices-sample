@@ -20,8 +20,8 @@ docker image ls
 
 ```shell
 # ./00-common
-kubectl apply -f 00-namespace.yml
-kubectl apply -f 01-persistent-volumn.yml
+kubectl apply -f 01-namespace.yml
+kubectl apply -f 02-persistent-volumn.yml
 kubectl apply -f 02-postgres-secret.yml
 # Check created namespace
 kubectl get namespace
@@ -47,7 +47,7 @@ kubectl get service
 
 ```shell
 # ./02-book-service
-kubectl apply -f 01-persistent-volumn-claim.yml
+kubectl apply -f 01-persistent-volume-claim.yml
 
 # Check PVC
 kubectl get pvc

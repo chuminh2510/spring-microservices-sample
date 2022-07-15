@@ -35,7 +35,7 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  key: BOOK_POSTGRES_DB
+                  key: POSTGRES_DB
                   name: postgres-secret
             - name: POSTGRES_HOST
               value: ${BOOK_POSTGRES_SERVICE_NP_SERVICE_HOST}

@@ -1,0 +1,166 @@
+# Persistent volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: order-postgresql-data-pv
+  namespace: book-store
+  labels:
+    app: order-postgresql-data-pv
+    app-type: storage
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/Users/minhcv/data/order"
+---
+# Persistent volume claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: order-postgresql-data-pvc
+  namespace: book-store
+  labels:
+    app: order-postgresql-data-pvc
+    app-type: storage
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+---
+# Postgres deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-postgres-deployment
+  namespace: book-store
+  labels:
+    app: order-postgres-deployment
+    app-type: database
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: order-postgres-deployment
+      labels:
+        app: order-postgres-deployment
+    spec:
+      containers:
+        - name: order-postgres-deployment
+          image: postgres:14.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: ORDER_POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: ORDER_POSTGRES_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: order-postgres-data
+      restartPolicy: Always
+      volumes:
+        - name: order-postgres-data
+          persistentVolumeClaim:
+            claimName: order-postgresql-data-pvc
+  selector:
+    matchLabels:
+      app: order-postgres-deployment
+---
+# Postgres service
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-postgres-service-np
+  namespace: book-store
+spec:
+  selector:
+    app: order-postgres-deployment
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30014
+  type: NodePort
+---
+# Order deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-deployment
+  namespace: book-store
+  labels:
+    app: order-service-deployment
+    app-type: service-endpoint
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: order-service-deployment
+      labels:
+        app: order-service-deployment
+        app-type: service-endpoint
+    spec:
+      containers:
+        - name: order-service-deployment
+          image: order-service:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: ORDER_POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: ORDER_POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_DB
+                  name: postgres-secret
+            - name: POSTGRES_HOST
+              value: ${ORDER_POSTGRES_SERVICE_NP_SERVICE_HOST}
+            - name: EUREKA_HOST
+              value: ${EUREKA_SERVER_SERVICE_LB_SERVICE_HOST}
+            - name: KAFKA_HOST
+              value: ${KAFKA_SERVICE_NP_SERVICE_HOST}
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: order-service-deployment
+---
+# Order service
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service-service-np
+  namespace: book-store
+spec:
+  selector:
+    app: order-service-deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30004
+  type: NodePort

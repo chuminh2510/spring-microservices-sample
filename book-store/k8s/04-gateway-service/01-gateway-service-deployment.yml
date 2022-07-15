@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service-deployment
+  namespace: book-store
+  labels:
+    app: gateway-service-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: gateway-service-deployment
+      labels:
+        app: gateway-service-deployment
+        app-type: service-gateway
+    spec:
+      containers:
+        - name: gateway-service-deployment
+          image: gateway-service:0.0.1-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: EUREKA_HOST
+              value: ${EUREKA_SERVER_SERVICE_LB_SERVICE_HOST}
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: gateway-service-deployment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service-service-lb
+  namespace: book-store
+spec:
+  selector:
+    app: gateway-service-deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: LoadBalancer
